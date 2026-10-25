@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile for Task Posters and Verified Doers.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["poster", "worker", "admin"] },
+        "avatar": { "type": "string" },
+        "phone": { "type": "string" },
+        "rating": { "type": "number" },
+        "reviewsCount": { "type": "number" },
+        "isVerified": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "role"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "A marketplace task posted with escrow guarantee.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "budget": { "type": "number" },
+        "status": {
+          "type": "string",
+          "enum": ["open", "assigned", "in_progress", "ready_for_proof", "completed", "cancelled"]
+        },
+        "posterId": { "type": "string" },
+        "posterName": { "type": "string" },
+        "posterAvatar": { "type": "string" },
+        "workerId": { "type": "string" },
+        "workerName": { "type": "string" },
+        "location": { "type": "string" },
+        "arrivalWindow": { "type": "string" },
+        "escrowSecured": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "budget", "status", "posterId"]
+    },
+    "Offer": {
+      "title": "Offer",
+      "description": "Worker proposal/bid on a task.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "taskId": { "type": "string" },
+        "workerId": { "type": "string" },
+        "workerName": { "type": "string" },
+        "workerAvatar": { "type": "string" },
+        "proposedPayout": { "type": "number" },
+        "netTakeHome": { "type": "number" },
+        "arrivalTime": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "taskId", "workerId", "proposedPayout", "status"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Encrypted message in a task thread.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "taskId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "isVoice": { "type": "boolean" },
+        "isDelta": { "type": "boolean" },
+        "deltaAmount": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "taskId", "senderId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles for taskers and posters."
+    },
+    "/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "Marketplace tasks with escrow funding status."
+    },
+    "/tasks/{taskId}/offers/{offerId}": {
+      "schema": "Offer",
+      "description": "Worker bids on specific tasks."
+    },
+    "/tasks/{taskId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Task-specific communication messages."
+    }
+  }
+}

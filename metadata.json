@@ -1,0 +1,6 @@
+{
+  "name": "SmS - Task Marketplace & Autonomous Escrow",
+  "description": "On-demand local task marketplace with instant escrow vault protection, real-time AR inspection, and autonomous corridor dispatch.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
